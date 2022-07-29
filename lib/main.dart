@@ -35,10 +35,11 @@ class MyApp extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+    setClient();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SafeArea(child: LoadingPage(
-        mqttClient: MqttClient(),
+        mqttClient: mqttClient
       )),
     );
   }

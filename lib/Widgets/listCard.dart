@@ -1,10 +1,10 @@
 import 'dart:ui';
-
+import 'package:forasan/main.dart';
 import 'package:flutter/material.dart';
 import 'package:forasan/MQTTClient.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:forasan/main.dart';
-
+import 'package:forasan/Widgets/sliders.dart';
 
 class GlassCard extends StatefulWidget {
   String glassname;
@@ -13,6 +13,9 @@ class GlassCard extends StatefulWidget {
 
 
   GlassCard({required this.glassname, required this.itemCount2, this.mqttClient, Key? key}) : super(key: key);
+  double _currentSliderValue = 0;
+  String mqttTopic1 = 'CONTROL/BetterTint';
+
 
   @override
   State<GlassCard> createState() => _GlassCardState();
@@ -22,8 +25,10 @@ class _GlassCardState extends State<GlassCard> {
 
   double _currentSliderValue = 100;
   String _values = '';
+
   @override
   Widget build(BuildContext context) {
+
     return ListView.builder(
           itemCount: widget.itemCount2,
           itemBuilder: (BuildContext context, int index) {
@@ -78,7 +83,7 @@ class _GlassCardState extends State<GlassCard> {
                             child: Text('data'),
                           ),
                           Container(
-                            child: GlassSlider()
+                            child: GlassSlider(mqttClient: widget.mqttClient, client: widget.mqttClient!.getClient, mqttTopic: widget.mqttTopic1)
                           ),
                           Container(
                             child: Text(_values
@@ -104,44 +109,5 @@ class _GlassCardState extends State<GlassCard> {
 
 
 
-class GlassSlider extends StatefulWidget {
-  const GlassSlider({Key? key}) : super(key: key);
 
-  @override
-  State<GlassSlider> createState() => _GlassSliderState();
-}
-
-class _GlassSliderState extends State<GlassSlider> {
-  String _values = '';
-  MqttClient mqttclient = MqttClient();
-  MqttServerClient mqttServerClient = MqttServerClient('192.168.0.220', '');
-  double _currentSliderValue = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 250,
-      height: 200,
-      child: Slider(
-          value: _currentSliderValue,
-          max: 100,
-          min: 0,
-          divisions: 100,
-          label: _currentSliderValue.round().toString(),
-          thumbColor: Colors.white,
-          inactiveColor: Colors.black,
-          activeColor: Colors.lightBlueAccent,
-          onChanged: (double value){
-            setState(() {
-              _currentSliderValue = value;
-              _values = '${_currentSliderValue.round().toString()}%';
-              print(_currentSliderValue.round().toString());
-              mqttclient.topic;
-              mqttclient.message;
-              mqttclient.client;
-            });
-          }),
-    );
-  }
-}
 

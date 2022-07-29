@@ -4,20 +4,22 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 class MqttClient{
-  final topic = String;
-  final message = String;
-  final client = MqttServerClient('211.40.224.13', '');
+  final topic = 'CONTROL/BetterTint';
+  final message = '{"value": 0}';
+  final client = MqttServerClient('192.168.0.220', '');
 
   // mqtt connect
   Future<MqttServerClient> getMqttClient() async{
+
     try{
       client.setProtocolV311();
+      client.port = 1883;
       client.keepAlivePeriod = 60;
       client.autoReconnect = true;
 
       final connMess = MqttConnectMessage()
-          .withWillTopic(topic.toString()) // If you set this you must set a will message
-          .withWillMessage(message.toString())
+          .withWillTopic('willtopic') // If you set this you must set a will message
+          .withWillMessage('My Will message')
           .startClean() // Non persistent session for testing
           .withWillQos(MqttQos.atLeastOnce);
       print('EXAMPLE::Mosquitto client connecting....');
@@ -44,6 +46,8 @@ class MqttClient{
     }
     return client;
   }
+
+
 
   // get connected client
   MqttServerClient get getClient => client;
