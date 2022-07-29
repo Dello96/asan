@@ -9,7 +9,8 @@ class GlassSlider extends StatefulWidget {
   MqttClient? mqttClient;
   MqttServerClient? client;
   String mqttTopic;
-  GlassSlider({required this.mqttClient, required this.client, required this.mqttTopic, Key? key}) : super(key: key);
+  String mqttMassage;
+  GlassSlider({required this.mqttClient, required this.client, required this.mqttTopic,required this.mqttMassage, Key? key}) : super(key: key);
 
   @override
   State<GlassSlider> createState() => _GlassSliderState();
@@ -38,7 +39,7 @@ class _GlassSliderState extends State<GlassSlider> {
           onChanged: (double value){
             setState(() {
               _currentSliderValue = value;
-              widget.mqttClient!.mqttPub(widget.mqttTopic, '{\"value\": ${_currentSliderValue.round()}}', widget.client);
+              widget.mqttClient!.mqttPub(widget.mqttTopic, '{\"value\": \'${widget.mqttClient}\'}', widget.client);
               print(_currentSliderValue.round().toString());
             });
           }),

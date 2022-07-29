@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:ui';
 import 'package:forasan/main.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class GlassCard extends StatefulWidget {
   GlassCard({required this.glassname, required this.itemCount2, this.mqttClient, Key? key}) : super(key: key);
   double _currentSliderValue = 0;
   String mqttTopic1 = 'CONTROL/BetterTint';
-
+  int mqttMessage1 = 0;
 
   @override
   State<GlassCard> createState() => _GlassCardState();
@@ -80,10 +81,7 @@ class _GlassCardState extends State<GlassCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
-                            child: Text('data'),
-                          ),
-                          Container(
-                            child: GlassSlider(mqttClient: widget.mqttClient, client: widget.mqttClient!.getClient, mqttTopic: widget.mqttTopic1)
+                            child: GlassSlider(mqttClient: widget.mqttClient, client: widget.mqttClient!.getClient, mqttTopic: widget.mqttTopic1, mqttMassage: '${_currentSliderValue.round()}',)
                           ),
                           Container(
                             child: Text(_values
