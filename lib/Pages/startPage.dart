@@ -16,10 +16,9 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: GlassCard(glassname: 'Room1', itemCount2: 1, mqttClient: widget.mqttClient),
+        color: Colors.grey[300],
+        child: GlassCard(glassname: 'BetterTint', itemCount2: 1, mqttClient: widget.mqttClient),
       ),
     );
   }
 }
-
-// 넘겨줘야 하는 자료들이니 애초에 정해진 자료여야 하는게 아닌가??

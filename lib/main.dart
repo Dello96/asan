@@ -4,14 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:forasan/Pages/startPage.dart';
 import 'package:forasan/MQTTClient.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'package:flutter_launcher_icons/android.dart';
-import 'package:flutter_launcher_icons/constants.dart';
-import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/ios.dart';
-import 'package:flutter_launcher_icons/main.dart';
-import 'package:flutter_launcher_icons/utils.dart';
-import 'package:flutter_launcher_icons/xml_templates.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -80,14 +72,18 @@ class LoadingPage extends StatelessWidget {
     double height = size.height;
 
     return Scaffold(
-      body: Container(
-        height: height,
-        width: width,
-        child: Center(
-          child: Container(
-            color: Colors.white,
-              height: height*0.5,
-              child: Image.asset('assets/images/asanlogo3.jpeg', scale: 4,)
+      body: SafeArea(
+        child: Container(
+          color: Colors.white,
+          height: height,
+          width: width,
+          child: Center(
+            child: Container(
+              alignment: Alignment.center,
+              color: Colors.white,
+                height: height*0.5,
+                child: Image.asset('assets/images/Glatic_logo.png', scale: 5,)
+            ),
           ),
         ),
       ),

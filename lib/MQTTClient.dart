@@ -6,7 +6,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 class MqttClient{
   final topic = 'CONTROL/BetterTint';
   final message = '{"value": 0}';
-  final client = MqttServerClient('192.168.0.220', '1883');
+  final client = MqttServerClient('192.168.0.2', '1883');
 
   // mqtt connect
   Future<MqttServerClient> getMqttClient() async{

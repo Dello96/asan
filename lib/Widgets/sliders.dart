@@ -1,5 +1,6 @@
+import 'dart:ffi';
 import 'dart:ui';
-
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:forasan/MQTTClient.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
@@ -8,42 +9,126 @@ import 'package:forasan/main.dart';
 class GlassSlider extends StatefulWidget {
   MqttClient? mqttClient;
   MqttServerClient? client;
-  String mqttTopic;
-  String mqttMassage;
-  GlassSlider({required this.mqttClient, required this.client, required this.mqttTopic,required this.mqttMassage, Key? key}) : super(key: key);
+  GlassSlider({required this.mqttClient, required this.client, Key? key}) : super(key: key);
 
   @override
   State<GlassSlider> createState() => _GlassSliderState();
 }
 
 class _GlassSliderState extends State<GlassSlider> {
-  String _values = '';
-  MqttClient mqttClient = MqttClient();
-  MqttServerClient client = MqttServerClient('192.168.0.220', '');
+  String mqttTopic = "CONTROL/BetterTint";
   double _currentSliderValue = 0;
+  final oneSec = Duration(milliseconds: 20);
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(oneSec, (Timer t) {
+      widget.mqttClient!.mqttPub(mqttTopic, '{\"value\" : ${_currentSliderValue.round()}}', widget.client);
+      print(_currentSliderValue);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 250,
-      height: 200,
-      child: Slider(
-          value: _currentSliderValue,
-          max: 100,
-          min: 0,
-          divisions: 100,
-          label: _currentSliderValue.round().toString(),
-          thumbColor: Colors.white,
-          inactiveColor: Colors.black,
-          activeColor: Colors.lightBlueAccent,
-          onChanged: (double value){
-            setState(() {
-              _currentSliderValue = value;
-              widget.mqttClient!.mqttPub(widget.mqttTopic, '{\"value\": \'${widget.mqttClient}\'}', widget.client);
-              print(_currentSliderValue.round().toString());
-            });
-          }),
+    return Column(
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Stack(
+              children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(90, 0, 0, 0),
+                  alignment: Alignment.center,
+                  width: 120,
+                  child: Text('${_currentSliderValue.round().toString()} %',
+                    style: TextStyle(
+                        fontSize: 40
+                    ),),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                  width: 300,
+                  height: 80,
+                  child: SliderTheme(
+                    data: SliderThemeData(
+                        thumbColor: Colors.white,
+                        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 25)
+                    ),
+                    child: Slider(
+                        value: _currentSliderValue,
+                        max: 100,
+                        min: 0,
+                        divisions: 100,
+                        inactiveColor: Colors.black,
+                        thumbColor: Colors.white,
+                        activeColor: Colors.blueAccent,
+                        onChanged: (double value){
+                          setState(() {
+                            _currentSliderValue = value;
+                            print(_currentSliderValue.round().toString());
+                          });
+                        }),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              height: 60,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.mqttClient!.mqttPub(mqttTopic, '{\"value\" : 0}', widget.client);
+                          _currentSliderValue = 0.0;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(image: AssetImage('assets/images/rectangle2.png'))
+                        ),
+                      )
+                  )
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  height: 50,
+                  child: VerticalDivider(
+                    width: 20,
+                    thickness: 1,
+                    endIndent: 0,
+                    indent: 0,
+                    color: Colors.grey,
+                  ),
+                ),
+                Container(
+                  width: 100,
+                  height: 100,
+                  child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.mqttClient!.mqttPub(mqttTopic, '{\"value\" : 100}', widget.client);
+                          _currentSliderValue = 100.0;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(image: AssetImage('assets/images/rectangle1.png'))
+                        ),
+                      )
+                )
+                )],
+            )
+          ],
+        ),
+      ],
     );
   }
 }
-
