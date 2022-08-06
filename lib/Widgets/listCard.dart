@@ -44,45 +44,46 @@ class _GlassCardState extends State<GlassCard> {
             ),
 
           Column(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 20,
-                      ),
-                      Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 500,
-                        child: Stack(
-                            children: [
-                              Column(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(65, 0, 0, 0),
-                                    alignment: Alignment.bottomLeft,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 80,
-                                    child: Text(widget.glassname,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 25,
-                                          color: Colors.blueAccent
-                                      ),),
-                                  ),
-                                  Container(
-                                    height: 80,
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                      margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                      child: GlassSlider(mqttClient: widget.mqttClient, client: widget.mqttClient!.getClient)
-                                  ),
-                                ],
-                              )
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 40,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.center,
+                  height: 600,
+                  child: Stack(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.fromLTRB(70, 0, 0, 0),
+                              alignment: Alignment.bottomLeft,
+                              width: MediaQuery.of(context).size.width,
+                              child: Text(widget.glassname,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
+                                    color: Colors.blueAccent
+                                ),),
+                            ),
+                            Container(
+                              height: 80,
+                            ),
+                            Container(
+                              height: 300,
+                              width: MediaQuery.of(context).size.width,
+                                child: GlassSlider(mqttClient: widget.mqttClient, client: widget.mqttClient!.getClient)
+                            ),
                           ],
-                        ),
+                        )
+                    ],
                   ),
+            ),
                 ],
               ),
+          Expanded(child: Container())
         ],
       ),
     );
