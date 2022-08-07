@@ -42,12 +42,11 @@ class _GlassCardState extends State<GlassCard> {
                     image: AssetImage('assets/images/Glatic_logo.png'))
               )
             ),
-
           Column(
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 40,
+                  height: 80,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
@@ -58,7 +57,7 @@ class _GlassCardState extends State<GlassCard> {
                         Column(
                           children: [
                             Container(
-                              margin: EdgeInsets.fromLTRB(70, 0, 0, 0),
+                              margin: EdgeInsets.fromLTRB(115, 0, 0, 0),
                               alignment: Alignment.bottomLeft,
                               width: MediaQuery.of(context).size.width,
                               child: Text(widget.glassname,
