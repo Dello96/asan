@@ -24,6 +24,7 @@ class _GlassCardState extends State<GlassCard> {
   bool connectingstate = true;
   double vvalue = 0;
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -42,22 +43,23 @@ class _GlassCardState extends State<GlassCard> {
                     image: AssetImage('assets/images/Glatic_logo.png'))
               )
             ),
+
           Column(
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 80,
+                  height: 60,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.center,
-                  height: 600,
+                  height: 450,
                   child: Stack(
                       children: [
                         Column(
                           children: [
                             Container(
-                              margin: EdgeInsets.fromLTRB(115, 0, 0, 0),
+                              margin: EdgeInsets.fromLTRB(65, 0, 0, 0),
                               alignment: Alignment.bottomLeft,
                               width: MediaQuery.of(context).size.width,
                               child: Text(widget.glassname,
@@ -82,11 +84,13 @@ class _GlassCardState extends State<GlassCard> {
             ),
                 ],
               ),
-          Expanded(child: Container())
+          Expanded(child: Container(
+          ))
         ],
       ),
     );
   }
+
 }
 
 

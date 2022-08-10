@@ -44,7 +44,7 @@ class _GlassSliderState extends State<GlassSlider> {
                     child: Stack(
                       children: [
                         Container(
-                          margin: EdgeInsets.fromLTRB(138, 0, 0, 0),
+                          margin: EdgeInsets.fromLTRB(90, 0, 0, 0),
                           alignment: Alignment.center,
                           width: 120,
                           child: Text('${_currentSliderValue.round().toString()} %',
@@ -54,7 +54,7 @@ class _GlassSliderState extends State<GlassSlider> {
                         ),
                         Container(
                           margin: EdgeInsets.fromLTRB(0, 60, 0, 0),
-                          width: 380,
+                          width: 300,
                           child: SliderTheme(
                             data: SliderThemeData(
                                 thumbColor: Colors.white,
