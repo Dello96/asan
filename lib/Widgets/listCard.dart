@@ -71,6 +71,7 @@ class _GlassCardState extends State<GlassCard> {
                             ),
                             Container(
                               height: 80,
+                              width: MediaQuery.of(context).size.width,
                             ),
                             Container(
                               height: 300,
@@ -92,6 +93,8 @@ class _GlassCardState extends State<GlassCard> {
   }
 
 }
+
+
 
 
 

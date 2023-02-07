@@ -128,8 +128,9 @@ class _GlassSliderState extends State<GlassSlider> {
                                   image: DecorationImage(image: AssetImage('assets/images/rectangle1.png'))
                                 ),
                               )
+                          )
                         )
-                        )],
+                      ],
                     ),
                   )
                 ],
