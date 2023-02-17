@@ -17,7 +17,7 @@ class _StartPageState extends State<StartPage> {
     return Scaffold(
       body: Container(
         color: Colors.grey[300],
-        child: GlassCard(glassname: 'BetterTint', itemCount2: 1, mqttClient: widget.mqttClient),
+        child: GlassCard(glassname: 'Group', itemCount2: 1, mqttClient: widget.mqttClient),
       ),
     );
   }

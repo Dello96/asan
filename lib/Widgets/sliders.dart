@@ -34,7 +34,6 @@ class _GlassSliderState extends State<GlassSlider> {
             Container(
               width: MediaQuery.of(context).size.width,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
                     child: Stack(
@@ -75,9 +74,6 @@ class _GlassSliderState extends State<GlassSlider> {
                         ),
                       ],
                     ),
-                  ),
-                  Container(
-                    height: 80,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
