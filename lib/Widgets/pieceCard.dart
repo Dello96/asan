@@ -20,9 +20,15 @@ class pieceCard extends StatefulWidget {
 class _pieceCardState extends State<pieceCard> {
 
 
+
   String mqttTopic = "CONTROL/BetterTint";
+  String mqttTopic1 = "CONTROL/59/1";
+  String mqttTopic2 = "CONTROL/59/2";
+  String mqttTopic3 = "CONTROL/59/3";
+  String mqttTopic4 = "CONTROL/59/4";
   double _currentSliderValue = 0;
   final oneSec = Duration(seconds: 2);
+  bool changeGlass = true;
 
   @override
   void initState() {
@@ -33,103 +39,412 @@ class _pieceCardState extends State<pieceCard> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 130,
+      height: 90,
       child: Stack(
         children: [
           Positioned(
               top: 0,
-              bottom: 80,
-              left: 100,
-              child: Container(
-                child: Text(widget.pieceName),
-              )
+              left: 90,
+              width: 100,
+              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),)
           ),
           Positioned(
-              top: 0,
-              bottom: 50,
-              child: Container(
-                width: 60,
-                height: 60,
-                child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        widget.mqttClient!.mqttPub(mqttTopic, '{\"value\" : 0}', widget.client);
+              top: 20,
+              left: 10,
+              child: FloatingActionButton(
+                  heroTag: "button",
+                  backgroundColor: changeGlass ? Colors.grey : Colors.white,
+                  child: Container(
+                    child: Text(changeGlass ? "OFF" : "ON",
+                        style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontSize: 20)),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      if(changeGlass == false) {
+                        changeGlass = !changeGlass;
+                        widget.mqttClient!.mqttPub(mqttTopic1, '{\"value\" : 0}', widget.client);
                         _currentSliderValue = 0.0;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(image: AssetImage('assets/images/rectangle2.png'))
-                      ),
-                    )
-                )
+                      } else {
+                        changeGlass = !changeGlass;
+                        widget.mqttClient!.mqttPub(mqttTopic1, '{\"value\" : 100}', widget.client);
+                        _currentSliderValue = 100.0;
+                      }
+                    });
+                  }
               )
           ),
           Positioned(
-            width: 50,
-            top: 50,
-            bottom: 50,
-            left: 5,
-            child: Divider(
-              thickness: 1,
-              color: Colors.blueGrey,
-              indent: 10,
-              endIndent: 10,
-            ),
-          ),
-          Positioned(
-              top: 50,
-              bottom: 0,
-              child: Container(
-                  width: 60,
-                  height: 60,
-                  child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          widget.mqttClient!.mqttPub(mqttTopic, '{\"value\" : 0}', widget.client);
-                          _currentSliderValue = 100.0;
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(image: AssetImage('assets/images/rectangle1.png'))
-                        ),
-                      )
-                  )
-              )
-          ),
-          Positioned(
-              width: 300,
+              width: 280,
               top: 40,
               left: 80,
-              child: Container(
-                child: SliderTheme(
-                  data: SliderThemeData(
-                      thumbColor: Colors.white,
-                      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 25)
-                  ),
-                  child: Slider(
-                      value: _currentSliderValue,
-                      max: 100,
-                      min: 0,
-                      divisions: 100,
-                      inactiveColor: Colors.black,
-                      thumbColor: Colors.white,
-                      activeColor: Colors.blueAccent,
-                      onChanged: (double value){
-                        setState(() {
-                          _currentSliderValue = value;
-                          widget.mqttClient!.mqttPub(mqttTopic,'{\"value\" : ${_currentSliderValue.round().toString()}}', widget.client);
-                          print(_currentSliderValue.round().toString());
-                        });
-                      }),
+              child: SliderTheme(
+                data: SliderThemeData(
+                    thumbColor: Colors.white,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 20)
                 ),
+                child: Slider(
+                    value: _currentSliderValue,
+                    max: 100,
+                    min: 0,
+                    divisions: 100,
+                    inactiveColor: Colors.black,
+                    thumbColor: Colors.white,
+                    activeColor: Colors.blueAccent,
+                    onChanged: (double value){
+                      setState(() {
+                        if(_currentSliderValue == 0.0) {
+                          changeGlass == false;
+                        } else {changeGlass == true;}
+                        _currentSliderValue = value;
+                        widget.mqttClient!.mqttPub(mqttTopic1,'{\"value\" : ${_currentSliderValue.round().toString()}}', widget.client);
+                        print(_currentSliderValue.round().toString());
+                      });
+                    }),
               ),
           ),
           Positioned(
               width: 120,
               top: 0,
-              left: 270,
+              left: 250,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text('${_currentSliderValue.round().toString()} %',
+                  style: TextStyle(
+                      fontSize: 30,
+                      color: changeGlass ? Colors.black : Color(0xff0785F2)
+                  ),),
+              ))
+        ],
+      ),
+    );
+  }
+}
+
+
+
+class pieceCard2 extends StatefulWidget {
+  String pieceName;
+  String boardNumber;
+  MqttClient? mqttClient;
+  MqttServerClient? client;
+  pieceCard2({required this.pieceName, required this.boardNumber, required this.mqttClient, required this.client, Key? key}) : super(key: key);
+
+  @override
+  State<pieceCard2> createState() => _pieceCard2State();
+}
+
+class _pieceCard2State extends State<pieceCard2> {
+
+
+  String mqttTopic = "CONTROL/BetterTint";
+  String mqttTopic1 = "CONTROL/59/1";
+  String mqttTopic2 = "CONTROL/59/2";
+  String mqttTopic3 = "CONTROL/59/3";
+  String mqttTopic4 = "CONTROL/59/4";
+  double _currentSliderValue = 0;
+  final oneSec = Duration(seconds: 2);
+  bool changeGlass = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 90,
+      child: Stack(
+        children: [
+          Positioned(
+              top: 0,
+              left: 90,
+              width: 100,
+              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),)
+          ),
+          Positioned(
+              top: 20,
+              left: 10,
+              child: FloatingActionButton(
+                  backgroundColor: changeGlass ? Colors.grey : Colors.white,
+                  child: Container(
+                    child: Text(changeGlass ? "OFF" : "ON",
+                        style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontSize: 20)),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      if(changeGlass == false) {
+                        changeGlass = !changeGlass;
+                        widget.mqttClient!.mqttPub(mqttTopic2, '{\"value\" : 0}', widget.client);
+                        _currentSliderValue = 0.0;
+                      } else {
+                        changeGlass = !changeGlass;
+                        widget.mqttClient!.mqttPub(mqttTopic2, '{\"value\" : 100}', widget.client);
+                        _currentSliderValue = 100.0;
+                      }
+                    });
+                  }
+              )
+          ),
+          Positioned(
+            width: 280,
+            top: 40,
+            left: 80,
+            child: Container(
+              child: SliderTheme(
+                data: SliderThemeData(
+                    thumbColor: Colors.white,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 20)
+                ),
+                child: Slider(
+                    value: _currentSliderValue,
+                    max: 100,
+                    min: 0,
+                    divisions: 100,
+                    inactiveColor: Colors.black,
+                    thumbColor: Colors.white,
+                    activeColor: Colors.blueAccent,
+                    onChanged: (double value){
+                      setState(() {
+                        _currentSliderValue = value;
+                        widget.mqttClient!.mqttPub(mqttTopic2,'{\"value\" : ${_currentSliderValue.round().toString()}}', widget.client);
+                        print(_currentSliderValue.round().toString());
+                      });
+                    }),
+              ),
+            ),
+          ),
+          Positioned(
+              width: 120,
+              top: 0,
+              left: 250,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text('${_currentSliderValue.round().toString()} %',
+                  style: TextStyle(
+                      fontSize: 30
+                  ),),
+              ))
+        ],
+      ),
+    );
+  }
+}
+
+
+class pieceCard3 extends StatefulWidget {
+  String pieceName;
+  String boardNumber;
+  MqttClient? mqttClient;
+  MqttServerClient? client;
+  pieceCard3({required this.pieceName, required this.boardNumber, required this.mqttClient, required this.client, Key? key}) : super(key: key);
+
+  @override
+  State<pieceCard3> createState() => _pieceCard3State();
+}
+
+class _pieceCard3State extends State<pieceCard3> {
+
+
+  String mqttTopic = "CONTROL/BetterTint";
+  String mqttTopic1 = "CONTROL/59/1";
+  String mqttTopic2 = "CONTROL/59/2";
+  String mqttTopic3 = "CONTROL/59/3";
+  String mqttTopic4 = "CONTROL/59/4";
+  double _currentSliderValue = 0;
+  final oneSec = Duration(seconds: 2);
+  bool changeGlass = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 90,
+      child: Stack(
+        children: [
+          Positioned(
+              top: 0,
+              left: 90,
+              width: 100,
+              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),)
+          ),
+          Positioned(
+              top: 20,
+              left: 10,
+              child: FloatingActionButton(
+                  backgroundColor: changeGlass ? Colors.grey : Colors.white,
+                  child: Container(
+                    child: Text(changeGlass ? "OFF" : "ON",
+                        style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontSize: 20)),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      if(changeGlass == false) {
+                        changeGlass = !changeGlass;
+                        widget.mqttClient!.mqttPub(mqttTopic3, '{\"value\" : 0}', widget.client);
+                        _currentSliderValue = 0.0;
+                      } else {
+                        changeGlass = !changeGlass;
+                        widget.mqttClient!.mqttPub(mqttTopic3, '{\"value\" : 100}', widget.client);
+                        _currentSliderValue = 100.0;
+                      }
+                    });
+                  }
+              )
+          ),
+          Positioned(
+            width: 280,
+            top: 40,
+            left: 80,
+            child: Container(
+              child: SliderTheme(
+                data: SliderThemeData(
+                    thumbColor: Colors.white,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 20)
+                ),
+                child: Slider(
+                    value: _currentSliderValue,
+                    max: 100,
+                    min: 0,
+                    divisions: 100,
+                    inactiveColor: Colors.black,
+                    thumbColor: Colors.white,
+                    activeColor: Colors.blueAccent,
+                    onChanged: (double value){
+                      setState(() {
+                        _currentSliderValue = value;
+                        widget.mqttClient!.mqttPub(mqttTopic3,'{\"value\" : ${_currentSliderValue.round().toString()}}', widget.client);
+                        print(_currentSliderValue.round().toString());
+                      });
+                    }),
+              ),
+            ),
+          ),
+          Positioned(
+              width: 120,
+              top: 0,
+              left: 250,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text('${_currentSliderValue.round().toString()} %',
+                  style: TextStyle(
+                      fontSize: 30
+                  ),),
+              ))
+        ],
+      ),
+    );
+  }
+}
+
+
+
+class pieceCard4 extends StatefulWidget {
+  String pieceName;
+  String boardNumber;
+  MqttClient? mqttClient;
+  MqttServerClient? client;
+  pieceCard4({required this.pieceName, required this.boardNumber, required this.mqttClient, required this.client, Key? key}) : super(key: key);
+
+  @override
+  State<pieceCard4> createState() => _pieceCard4State();
+}
+
+class _pieceCard4State extends State<pieceCard4> {
+
+
+  String mqttTopic = "CONTROL/BetterTint";
+  String mqttTopic1 = "CONTROL/59/1";
+  String mqttTopic2 = "CONTROL/59/2";
+  String mqttTopic3 = "CONTROL/59/3";
+  String mqttTopic4 = "CONTROL/59/4";
+  double _currentSliderValue = 0;
+  final oneSec = Duration(seconds: 2);
+  bool changeGlass = true;
+  String _on = "ON";
+  String _off = "OFF";
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 90,
+      child: Stack(
+        children: [
+          Positioned(
+              top: 0,
+              left: 90,
+              width: 100,
+              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),)
+          ),
+          Positioned(
+            top: 20,
+              left: 10,
+              child: FloatingActionButton(
+                backgroundColor: changeGlass ? Colors.grey : Colors.white,
+                child: Container(
+                  child: Text(changeGlass ? "OFF" : "ON",
+                    style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontSize: 20)),
+                ),
+                  onPressed: () {
+                    setState(() {
+                      if(changeGlass == false) {
+                        changeGlass = !changeGlass;
+                        widget.mqttClient!.mqttPub(mqttTopic4, '{\"value\" : 0}', widget.client);
+                        _currentSliderValue = 0.0;
+                      } else {
+                        changeGlass = !changeGlass;
+                        widget.mqttClient!.mqttPub(mqttTopic4, '{\"value\" : 100}', widget.client);
+                        _currentSliderValue = 100.0;
+                      }
+                    });
+                  }
+                  )
+          ),
+          Positioned(
+            width: 280,
+            top: 40,
+            left: 80,
+            child: Container(
+              child: SliderTheme(
+                data: SliderThemeData(
+                    thumbColor: Colors.white,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 20)
+                ),
+                child: Slider(
+                    value: _currentSliderValue,
+                    max: 100,
+                    min: 0,
+                    divisions: 100,
+                    inactiveColor: Colors.black,
+                    thumbColor: Colors.white,
+                    activeColor: Colors.blueAccent,
+                    onChanged: (double value){
+                      setState(() {
+                        _currentSliderValue = value;
+                        widget.mqttClient!.mqttPub(mqttTopic4,'{\"value\" : ${_currentSliderValue.round().toString()}}', widget.client);
+
+                        print(_currentSliderValue.round().toString());
+                      });
+                    }),
+              ),
+            ),
+          ),
+          Positioned(
+              width: 120,
+              top: 0,
+              left: 250,
               child: Container(
                 alignment: Alignment.center,
                 child: Text('${_currentSliderValue.round().toString()} %',

@@ -105,7 +105,6 @@ class _LoginPageState extends State<LoginPage> {
       await Future.delayed((Duration(milliseconds: delayMiliseconds)));
       delayMiliseconds = delayMiliseconds * 2;
       print('$client  $delayMiliseconds');
-
     }
   }
 
@@ -139,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 150,
+                height: 80,
                 color: Colors.grey[300],
               ),
               Container(
@@ -170,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 100,
+                height: 50,
                 color: Colors.grey[300],
                 child: TextButton(
                     onPressed: () async{

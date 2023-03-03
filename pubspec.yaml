@@ -38,6 +38,7 @@ dependencies:
   path_provider: ^2.0.12
   plugin: ^0.2.0+3
   flip_card: ^0.7.0
+  sleek_circular_slider: ^2.0.1
 
 dev_dependencies:
   flutter_test:
