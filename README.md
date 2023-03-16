@@ -1,16 +1,4 @@
 # forasan
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+G2B 제출용 앱버전, 라즈베리파이와 앱이 MQTT 통해서 데이터 직접 송/수신
+고정IP로 사용할 경우 main.dart에 ip 고정값 입력할것
