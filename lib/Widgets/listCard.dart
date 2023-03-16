@@ -18,9 +18,10 @@ class GlassCard extends StatefulWidget {
   String glassname;
   int itemCount2;
   final MqttClient? mqttClient;
+  final MqttServerClient? client;
 
 
-  GlassCard({required this.glassname, required this.itemCount2, this.mqttClient, Key? key}) : super(key: key);
+  GlassCard({required this.glassname, required this.itemCount2, this.mqttClient, this.client, Key? key}) : super(key: key);
 
   @override
   State<GlassCard> createState() => _GlassCardState();
@@ -28,12 +29,13 @@ class GlassCard extends StatefulWidget {
 
 class _GlassCardState extends State<GlassCard> {
   double _opacity = 0;
-  bool connectingstate = true;
+  bool coNNectingStatus = true;
   double vvalue = 0;
   List<bool> _selectedMode = <bool>[true, false];
   bool changeMode = false;
   MqttServerClient? client = null;
   int delayMiliseconds = 100;
+  double _currentSliderValue = 0;
 
 
   @override
@@ -73,7 +75,8 @@ class _GlassCardState extends State<GlassCard> {
               child: Stack(
                 children: [
                   Container(
-                    height: 450,
+                    width: 300,
+                    height: 460,
                     child: FlipCard(
                       direction: FlipDirection.HORIZONTAL,
                         side: CardSide.FRONT,
@@ -85,7 +88,7 @@ class _GlassCardState extends State<GlassCard> {
                           children: [
                             Positioned(
                               top: 10,
-                              left: 50,
+                              left: 30,
                               child: Container(
                                 child: Text('Group',
                                   style: TextStyle(
@@ -96,26 +99,11 @@ class _GlassCardState extends State<GlassCard> {
                               ),
                             ),
                             Positioned(
-                              top: 100,
-                                left: 50,
+                              top: 50,
+                                left: 28,
                                 child: GlassSlider(mqttClient: widget.mqttClient, client: widget.mqttClient!.getClient)
                             ),
 
-                            Positioned(
-                                top: 0,
-                                right: 50,
-                                child: TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        setClient();}
-                                      );
-                                    },
-                                    child: Text(widget.mqttClient!.client.connectionStatus!.state.toString().substring(20).toUpperCase(), style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold
-                                    ),))
-                            )
                           ],
                         ),
                         back: Container(
@@ -127,8 +115,7 @@ class _GlassCardState extends State<GlassCard> {
                                   children: [
                                     pieceCard(pieceName: 'Glass1', boardNumber: '1', mqttClient: widget.mqttClient, client: widget.mqttClient!.getClient),
                                     Divider(
-                                      thickness: 2,
-                                    ),
+                                      thickness: 2,),
                                     pieceCard2(pieceName: 'Glass2', boardNumber: '2', mqttClient: widget.mqttClient, client: widget.mqttClient!.getClient),
                                     Divider(
                                       thickness: 2,),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:forasan/MQTTClient.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:forasan/main.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class pieceCard extends StatefulWidget {
   String pieceName;
@@ -46,7 +47,7 @@ class _pieceCardState extends State<pieceCard> {
               top: 0,
               left: 90,
               width: 100,
-              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),)
+              child: Text(widget.pieceName, style: TextStyle(fontFamily: 'BebasNeue-Regular', fontSize: 20))
           ),
           Positioned(
               top: 20,
@@ -56,7 +57,7 @@ class _pieceCardState extends State<pieceCard> {
                   backgroundColor: changeGlass ? Colors.grey : Colors.white,
                   child: Container(
                     child: Text(changeGlass ? "OFF" : "ON",
-                        style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontSize: 20)),
+                        style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontFamily: 'BebasNeue-Regular', fontSize: 20)),
                   ),
                   onPressed: () {
                     setState(() {
@@ -161,7 +162,7 @@ class _pieceCard2State extends State<pieceCard2> {
               top: 0,
               left: 90,
               width: 100,
-              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),)
+              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontFamily: 'BebasNeue-Regular'),)
           ),
           Positioned(
               top: 20,
@@ -170,7 +171,7 @@ class _pieceCard2State extends State<pieceCard2> {
                   backgroundColor: changeGlass ? Colors.grey : Colors.white,
                   child: Container(
                     child: Text(changeGlass ? "OFF" : "ON",
-                        style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontSize: 20)),
+                        style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2),fontFamily: 'BebasNeue-Regular', fontSize: 20)),
                   ),
                   onPressed: () {
                     setState(() {
@@ -272,7 +273,7 @@ class _pieceCard3State extends State<pieceCard3> {
               top: 0,
               left: 90,
               width: 100,
-              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),)
+              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontFamily: 'BebasNeue-Regular'),)
           ),
           Positioned(
               top: 20,
@@ -281,7 +282,7 @@ class _pieceCard3State extends State<pieceCard3> {
                   backgroundColor: changeGlass ? Colors.grey : Colors.white,
                   child: Container(
                     child: Text(changeGlass ? "OFF" : "ON",
-                        style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontSize: 20)),
+                        style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontFamily: 'BebasNeue-Regular', fontSize: 20)),
                   ),
                   onPressed: () {
                     setState(() {
@@ -386,7 +387,7 @@ class _pieceCard4State extends State<pieceCard4> {
               top: 0,
               left: 90,
               width: 100,
-              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),)
+              child: Text(widget.pieceName, style: TextStyle(fontSize: 20, fontFamily: 'BebasNeue-Regular'),)
           ),
           Positioned(
             top: 20,
@@ -395,7 +396,7 @@ class _pieceCard4State extends State<pieceCard4> {
                 backgroundColor: changeGlass ? Colors.grey : Colors.white,
                 child: Container(
                   child: Text(changeGlass ? "OFF" : "ON",
-                    style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontSize: 20)),
+                    style: TextStyle(color: changeGlass ? Colors.black : Color(0xff0785F2), fontFamily: 'BebasNeue-Regular', fontSize: 20)),
                 ),
                   onPressed: () {
                     setState(() {
@@ -450,8 +451,10 @@ class _pieceCard4State extends State<pieceCard4> {
                 child: Text('${_currentSliderValue.round().toString()} %',
                   style: TextStyle(
                       fontSize: 30
-                  ),),
-              ))
+                  ),
+                ),
+              )
+          )
         ],
       ),
     );

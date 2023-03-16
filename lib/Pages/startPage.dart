@@ -5,13 +5,19 @@ import 'package:forasan/MQTTClient.dart';
 
 class StartPage extends StatefulWidget {
   MqttClient? mqttClient;
-  StartPage({required this.mqttClient, Key? key}) : super(key: key);
+  final MqttServerClient? client;
+  StartPage({required this.mqttClient, this.client, Key? key}) : super(key: key);
 
   @override
   State<StartPage> createState() => _StartPageState();
 }
 
 class _StartPageState extends State<StartPage> {
+  MqttServerClient? client = null;
+  int delayMiliseconds = 100;
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

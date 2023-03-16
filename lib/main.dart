@@ -117,6 +117,27 @@ class _LoginPageState extends State<LoginPage> {
     ipController.dispose();
     super.dispose();
   }
+
+  void showSnackBar(BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text('연결 성공'),
+      backgroundColor: Colors.teal,
+      behavior: SnackBarBehavior.floating,
+      action: SnackBarAction(
+        label: 'Reconnect',
+        disabledTextColor: Colors.white,
+        textColor: Colors.yellow,
+        onPressed: () {
+          setState(() {
+            setClient();
+            print(client?.connectionStatus?.state.toString());
+          });
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,9 +194,11 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.grey[300],
                 child: TextButton(
                     onPressed: () async{
-                      mqttClient = MqttClient(ipController.text);
-                      await setClient();
-                      Navigator.push(context, CupertinoPageRoute(builder: (context) => StartPage(mqttClient: mqttClient)));
+                      if (mqttClient == MqttClient(ipController.text)) {
+                        setClient();
+                        showSnackBar(context);
+                        Navigator.push(context, CupertinoPageRoute(builder: (context) => StartPage(mqttClient: mqttClient)));
+                      } else {blankBlank('black');}
                     },
                     child: Text('Connect',
                     style: TextStyle(
@@ -190,5 +213,12 @@ class _LoginPageState extends State<LoginPage> {
           )),
     );
   }
+  Widget blankBlank(String text){
+    return Container(
+      child: Text(text),
+    );
+  }
 }
+
+
 
